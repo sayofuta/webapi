@@ -14,7 +14,6 @@ phases:
       - IMAGE_TAG=webapi
   build:
     commands:
-      - dotnet publish -o ./build_output Example01/Example01.csproj
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t myamazonlinux .
