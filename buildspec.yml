@@ -17,7 +17,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t amazonlinux-webapi .
-      - docker tag myamazonlinux:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag amazonlinux-webapi:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
