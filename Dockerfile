@@ -1,19 +1,24 @@
 FROM amazonlinux:2
-COPY copy/build.sh /build.sh
+
+RUN yum update -y
+#.NET Coreランタイムのインストール
+RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm && yum install -y dotnet-runtime-3.1
+#supervisorのインストール
+RUN yum install -y python-setuptools && easy_install pip && pip install supervisor && yum install -y initscripts
+#nginxのインストール
+RUN amazon-linux-extras install -y nginx1.12
+#設定ファイルの作成
+RUN mkdir /etc/supervisord.d
+RUN mkdir /var/log/supervisor
+RUN echo_supervisord_conf > /etc/supervisord.conf
+#iniファイルの作成
+RUN curl -o /etc/rc.d/init.d/supervisord https://raw.githubusercontent.com/Supervisor/initscripts/master/redhat-init-equeffelec
+RUN chmod 755 /etc/init.d/supervisord
+
 COPY copy/publish /root/webapi
 COPY copy/nginx.conf /etc/nginx/nginx.conf
-COPY copy/kestrel-mvc.service /etc/systemd/system/kestrel-mvc.service
-COPY copy/nginx.service /etc/systemd/system/nginx.service
-
-RUN yum update -y && yum install -y \
-    systemd \
-    procps \
-    && amazon-linux-extras install -y nginx1.12
-RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-RUN yum install -y dotnet-runtime-3.1
-RUN chmod 775 /root/webapi/*
-RUN sed s/#LogLevel=info/LogLevel=warn/ /etc/systemd/system.conf
-
-
+COPY copy/service-nginx.conf /etc/supervisord.d/service-nginx.conf
+COPY copy/webapi.conf /etc/supervisord.d/webapi.conf
+COPY copy/supervisord.conf /etc/supervisord.conf
 
 

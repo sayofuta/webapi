@@ -16,10 +16,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t myamazonlinux .
-      - docker run -itd --privileged --name myamazonlinux myamazonlinux /sbin/init
-      - docker exec myamazonlinux bash /build.sh
-      - docker commit myamazonlinux myamazonlinux
+      - docker build -t amazonlinux-webapi .
       - docker tag myamazonlinux:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
