@@ -21,5 +21,7 @@ COPY copy/supervisord.conf /etc/supervisord.conf
 RUN curl -o /etc/rc.d/init.d/supervisord https://raw.githubusercontent.com/Supervisor/initscripts/master/redhat-init-equeffelec
 RUN chmod 755 /etc/init.d/supervisord
 
+EXPOSE 80
+CMD /usr/bin/supervisord -c /etc/supervisord.d/supervisord.conf
 
 
