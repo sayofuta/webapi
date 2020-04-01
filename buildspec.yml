@@ -11,13 +11,13 @@ phases:
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=684956540993.dkr.ecr.ap-northeast-1.amazonaws.com/fsi-test
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=webapi
+      - IMAGE_TAG=supervisor
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t amazonlinux-nginx .
-      - docker tag amazonlinux-nginx:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
