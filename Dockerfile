@@ -16,8 +16,6 @@ RUN yum install -y initscripts
 #nginxのインストール
 RUN amazon-linux-extras install -y nginx1.12
 #設定ファイルの作成
-RUN mkdir /etc/supervisord.d
-RUN mkdir /var/log/supervisor
 RUN echo_supervisord_conf > /etc/supervisord.conf
 #iniファイルの作成
 RUN curl -o /etc/rc.d/init.d/supervisord https://raw.githubusercontent.com/Supervisor/initscripts/master/redhat-init-equeffelec
